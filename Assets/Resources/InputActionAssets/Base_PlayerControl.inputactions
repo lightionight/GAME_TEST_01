@@ -1,14 +1,14 @@
 {
-    "name": "PlayerInput",
+    "name": "Base_PlayerControl",
     "maps": [
         {
-            "name": "Character_Asron",
-            "id": "b9cc8ca9-91eb-4989-a6d2-d66035d4c66d",
+            "name": "MainCharacter",
+            "id": "3eaf92f6-011a-4aa4-8edd-edc32d8788da",
             "actions": [
                 {
                     "name": "Move",
                     "type": "Value",
-                    "id": "e2ee59be-06e6-4a6f-b2f3-8a427d8df668",
+                    "id": "5ca02805-3aa0-43eb-9ade-23a1af240b86",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -16,7 +16,7 @@
                 {
                     "name": "LookAround",
                     "type": "Value",
-                    "id": "4f20d8a0-0082-4617-afd9-f45c068ed47f",
+                    "id": "5ac02ec1-2a47-4067-ba6e-192c85286d10",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -24,10 +24,10 @@
             ],
             "bindings": [
                 {
-                    "name": "Keyborad",
-                    "id": "60960fd2-0ed7-448c-ba20-7bd61bd754af",
+                    "name": "KeyBoard",
+                    "id": "41c11246-1b46-49f6-a3f9-d26f6717af95",
                     "path": "2DVector",
-                    "interactions": "Press,SlowTap",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Move",
@@ -36,7 +36,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "ab09d247-9783-469d-8175-c5bb3f52622d",
+                    "id": "0c34584e-1503-4813-8b7a-360adc7c1c6c",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -47,7 +47,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "69fffd9e-b2d2-48e5-b770-af6061246a70",
+                    "id": "56688f28-84d0-464b-973c-06eb5486cf22",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -58,7 +58,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "30235178-35bc-4321-8852-1d81108927a0",
+                    "id": "f5165abc-875f-4e79-b260-209e83e6b8d4",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -69,7 +69,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "8c772c63-d3d6-4ab3-853a-5f5af706d29a",
+                    "id": "a79dcb63-0ca9-495b-802e-084f4759ca63",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -80,10 +80,10 @@
                 },
                 {
                     "name": "",
-                    "id": "982ab970-dd74-4c89-89c0-1af6feb54099",
+                    "id": "c9dbb3a5-b9cb-4709-a30e-a10ac7830a0c",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=1.5,y=1.5)",
+                    "processors": "ScaleVector2(x=5,y=5)",
                     "groups": "",
                     "action": "LookAround",
                     "isComposite": false,
