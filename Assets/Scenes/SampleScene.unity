@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9bc60c5c86f8a4d8c563303176b76f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Distance: 5
-  rollAngle: 0
-  rotAngle: 0
-  Player: {fileID: 0}
+  m_Distance: 20
+  rollAngle: 50
+  rotAngle: 180
+  Player: {fileID: 1872044322}
 --- !u!81 &663375837
 AudioListener:
   m_ObjectHideFlags: 0
@@ -732,3 +732,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   rotateSpeed: 60
+  mainCamera: {fileID: 663375835}

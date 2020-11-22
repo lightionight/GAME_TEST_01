@@ -12,6 +12,7 @@ namespace GAME_TEST_01.Player
         public float moveSpeed = 10;
         public float rotateSpeed = 60;
         Base_PlayerControl playControl;
+        public GameObject mainCamera;
         public void OnEnable()
         {
             if(playControl == null)
@@ -44,12 +45,22 @@ namespace GAME_TEST_01.Player
         }
         private void LookAround(Vector2 rotate)
         {
-            if(rotate.sqrMagnitude < 0.01)
+            float rotAngle, rollAngle;
+            if (rotate.sqrMagnitude < 0.01)
                 return;
             var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
             m_lookAround.y += rotate.x * scaledRotateSpeed;
             m_lookAround.x += Mathf.Clamp(m_lookAround.x - rotate.y * scaledRotateSpeed, -89, 89);
+            rotAngle = m_lookAround.x * 180 / Mathf.PI / 1000;
+            rollAngle = m_lookAround.y * 180 / Mathf.PI / 1000;
+            if (rollAngle < 35 && rollAngle > 0)
+            {
+                
+            }
             transform.localEulerAngles = m_lookAround;
+            mainCamera.GetComponent<CameraFlow>().rollAngle += rollAngle;
+            mainCamera.GetComponent<CameraFlow>().rotAngle += rotAngle;
+            
         }
         
         public void Update()
