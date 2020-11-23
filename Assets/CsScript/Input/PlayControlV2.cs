@@ -2,6 +2,8 @@
 using UnityEngine.InputSystem;
 using static Base_PlayerControl;
 
+// https://www.zhihu.com/question/375434426 保持unity方向同摄像机方向一样
+
 namespace GAME_TEST_01.Player
 {
     //[RequireComponent(typeof(PlayerInput))]
@@ -9,8 +11,12 @@ namespace GAME_TEST_01.Player
     {
         private Vector2 m_Move;
         private Vector2 m_lookAround;
+        private float m_Jump = 5.0f;
+        private bool jumpStatu = false;
+        private Vector3 currentPos, targetPos;
+
         public float moveSpeed = 10;
-        public float rotateSpeed = 60;
+        public float rotateSpeed = 50;
         Base_PlayerControl playControl;
         public GameObject mainCamera;
         public void OnEnable()
@@ -34,6 +40,16 @@ namespace GAME_TEST_01.Player
         {
             m_lookAround = context.ReadValue<Vector2>();
         }
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if(context.phase == InputActionPhase.Performed)
+            {
+                jumpStatu = true;
+                currentPos = transform.position;
+                targetPos = new Vector3(currentPos.x, (currentPos.y + m_Jump), currentPos.z);
+            }
+
+        }
         private void Move(Vector2 direction)
         {
             if (direction.sqrMagnitude < 0.01)
@@ -46,27 +62,36 @@ namespace GAME_TEST_01.Player
         private void LookAround(Vector2 rotate)
         {
             float rotAngle, rollAngle;
-            if (rotate.sqrMagnitude < 0.01)
+            if (rotate.sqrMagnitude < 0.1)
                 return;
             var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
             m_lookAround.y += rotate.x * scaledRotateSpeed;
             m_lookAround.x += Mathf.Clamp(m_lookAround.x - rotate.y * scaledRotateSpeed, -89, 89);
-            rotAngle = m_lookAround.x * 180 / Mathf.PI / 1000;
-            rollAngle = m_lookAround.y * 180 / Mathf.PI / 1000;
-            if (rollAngle < 35 && rollAngle > 0)
+            rotAngle = m_lookAround.x * 180 / Mathf.PI / 2000;
+            rollAngle = m_lookAround.y * 180 / Mathf.PI / 2000;
+            transform.forward = new Vector3(mainCamera.GetComponent<Transform>().forward.x, 0, mainCamera.GetComponent<Transform>().forward.z);
+            if(mainCamera.GetComponent<CameraFlow>().rollAngle + rollAngle > 0 && mainCamera.GetComponent<CameraFlow>().rollAngle + rollAngle < 85)
             {
-                
+                mainCamera.GetComponent<CameraFlow>().rollAngle += rollAngle;
             }
-            transform.localEulerAngles = m_lookAround;
-            mainCamera.GetComponent<CameraFlow>().rollAngle += rollAngle;
             mainCamera.GetComponent<CameraFlow>().rotAngle += rotAngle;
             
+        }
+        private void Jump(bool jumpStatu)
+        {
+            if (jumpStatu)
+            {
+                transform.Translate(Vector3.Lerp(currentPos, targetPos, Time.deltaTime));
+            }
+            jumpStatu = false;
         }
         
         public void Update()
         {
-            LookAround(m_lookAround);
+            // Move First AND Rotate;
+            Jump(jumpStatu);
             Move(m_Move);
+            LookAround(m_lookAround);
         }
     }
 }

@@ -33,6 +33,14 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""34ea9ed3-ab65-45b5-b72b-9035df6c92d2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -101,6 +109,17 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
                     ""action"": ""LookAround"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07decf7f-5fbb-4cca-9a88-649ebe99c011"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -111,6 +130,7 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
         m_MainCharacter = asset.FindActionMap("MainCharacter", throwIfNotFound: true);
         m_MainCharacter_Move = m_MainCharacter.FindAction("Move", throwIfNotFound: true);
         m_MainCharacter_LookAround = m_MainCharacter.FindAction("LookAround", throwIfNotFound: true);
+        m_MainCharacter_Jump = m_MainCharacter.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -162,12 +182,14 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
     private IMainCharacterActions m_MainCharacterActionsCallbackInterface;
     private readonly InputAction m_MainCharacter_Move;
     private readonly InputAction m_MainCharacter_LookAround;
+    private readonly InputAction m_MainCharacter_Jump;
     public struct MainCharacterActions
     {
         private @Base_PlayerControl m_Wrapper;
         public MainCharacterActions(@Base_PlayerControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_MainCharacter_Move;
         public InputAction @LookAround => m_Wrapper.m_MainCharacter_LookAround;
+        public InputAction @Jump => m_Wrapper.m_MainCharacter_Jump;
         public InputActionMap Get() { return m_Wrapper.m_MainCharacter; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -183,6 +205,9 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
                 @LookAround.started -= m_Wrapper.m_MainCharacterActionsCallbackInterface.OnLookAround;
                 @LookAround.performed -= m_Wrapper.m_MainCharacterActionsCallbackInterface.OnLookAround;
                 @LookAround.canceled -= m_Wrapper.m_MainCharacterActionsCallbackInterface.OnLookAround;
+                @Jump.started -= m_Wrapper.m_MainCharacterActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_MainCharacterActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_MainCharacterActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_MainCharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -193,6 +218,9 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
                 @LookAround.started += instance.OnLookAround;
                 @LookAround.performed += instance.OnLookAround;
                 @LookAround.canceled += instance.OnLookAround;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -201,5 +229,6 @@ public class @Base_PlayerControl : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLookAround(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

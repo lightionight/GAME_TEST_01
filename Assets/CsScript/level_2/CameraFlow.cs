@@ -5,6 +5,7 @@ using UnityEngine;
  *   ---------------Camera FLow implement--------------------
  *************************************************************/
 // Ref : https://blog.csdn.net/qq_14942529/article/details/82584702
+// 四元数 Ref：https://www.zhihu.com/question/23005815
 
 public class CameraFlow : MonoBehaviour
 {
