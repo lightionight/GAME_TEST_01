@@ -9,16 +9,18 @@ namespace GAME_TEST_01.Player
     //[RequireComponent(typeof(PlayerInput))]
     public class PlayControlV2 : MonoBehaviour, IMainCharacterActions
     {
+        private Base_PlayerControl playControl;
         private Vector2 m_Move;
         private Vector2 m_lookAround;
-        private float m_Jump = 5.0f;
-        private bool jumpStatu = false;
-        private Vector3 currentPos, targetPos;
+        private Vector3 targetPos;
+        private bool    m_jumpStatu = false;
+        private float   m_Jump = 5.0f;
+        private float   m_realTimeDistance;
 
         public float moveSpeed = 10;
         public float rotateSpeed = 50;
-        Base_PlayerControl playControl;
         public GameObject mainCamera;
+
         public void OnEnable()
         {
             if(playControl == null)
@@ -42,11 +44,9 @@ namespace GAME_TEST_01.Player
         }
         public void OnJump(InputAction.CallbackContext context)
         {
-            if(context.phase == InputActionPhase.Performed)
+            if(context.action.triggered)
             {
-                jumpStatu = true;
-                currentPos = transform.position;
-                targetPos = new Vector3(currentPos.x, (currentPos.y + m_Jump), currentPos.z);
+                m_jumpStatu = true;
             }
 
         }
@@ -79,17 +79,18 @@ namespace GAME_TEST_01.Player
         }
         private void Jump(bool jumpStatu)
         {
-            if (jumpStatu)
+            if(jumpStatu)
             {
-                transform.Translate(Vector3.Lerp(currentPos, targetPos, Time.deltaTime));
+                targetPos = new Vector3(transform.position.x, transform.position.y + m_Jump, transform.position.z);
             }
-            jumpStatu = false;
+
+
         }
         
         public void Update()
         {
             // Move First AND Rotate;
-            Jump(jumpStatu);
+            Jump(m_jumpStatu);
             Move(m_Move);
             LookAround(m_lookAround);
         }

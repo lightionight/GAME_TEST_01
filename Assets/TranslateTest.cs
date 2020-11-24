@@ -7,7 +7,8 @@ public class TranslateTest : MonoBehaviour
     private Vector3 currentPos;
     private Vector3 targetPos;
     bool jump = false;
-    public float distance = 5;
+    private float distance;
+    private float jump_distance = 5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,17 +18,22 @@ public class TranslateTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (jump)
-        {
-            currentPos = transform.position;
-            targetPos = new Vector3(currentPos.x, currentPos.y + 10, currentPos.z);
-            distance = (targetPos - currentPos).magnitude;
-            transform.position = Vector3.Lerp(currentPos, targetPos, Time.deltaTime);
-        }
-        if (distance > 2.5)
+        Jump(jump);
+    }
+    void Jump(bool jump)
+    {
+        if(jump)
         {
             jump = false;
-        }
+            currentPos = transform.position;
+            targetPos  = new Vector3(currentPos.x, (currentPos.y + jump_distance), currentPos.z);
 
+        }
+        distance = (targetPos - transform.position).magnitude;
+        Debug.Log("Now Distance is " + distance);
+        if (distance < 2.5)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime);
+        }
     }
 }
