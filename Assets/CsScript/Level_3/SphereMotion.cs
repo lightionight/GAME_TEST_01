@@ -6,21 +6,34 @@ namespace Assets.CsScript.Level_3
 {
     public class SphereMotion : MonoBehaviour
     {
-        private Vector3 centerPos;
-        private Vector3 circlePos;
-        private float m_R = 5;
-        private float x2, y2, z2;
-        private void Start()
-        {
-            //centerPos =
-            //circlePos = 
-            x2 = circlePos.x - circlePos.x;
-            y2 = circlePos.y - circlePos.y;
-            z2 = circlePos.z - circlePos.z;
-            x2 *= x2;
-            y2 *= y2;
-            z2 *= z2;
+        
+        private Vector3 targetPos;
+        private float x_Deviation, y_Deviation, z_Deviation;// x, y, z 偏移值
+        private float _Angle;
+        public float _Radius = 3;
 
+        public float revolutionSpeed;
+
+        private void Update()
+        {
+            transform.position = circleAround();
+        }
+
+        /// <summary>
+        ///  Return Position vector3
+        /// </summary>
+        /// <returns></returns>
+        Vector3 circleAround()
+        {
+            _Angle += revolutionSpeed * Time.deltaTime;
+            if (_Angle > 360)
+                _Angle -= 360;
+            float x = targetPos.x + Mathf.Cos(_Angle * (Mathf.PI / 180)) * _Radius * revolutionSpeed;
+            float y = targetPos.y + Mathf.Sin(_Angle * (Mathf.PI / 180)) * _Radius * revolutionSpeed;
+            float z = targetPos.z + Mathf.Sin(_Angle * (Mathf.PI / 180)) * _Radius * revolutionSpeed;
+
+            
+            return new Vector3(x, 0, z);
         }
 
     }
