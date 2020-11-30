@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Radius: 3
-  revolutionSpeed: 30
+  revolutionSpeed: 0
 --- !u!1 &1731528219
 GameObject:
   m_ObjectHideFlags: 0
